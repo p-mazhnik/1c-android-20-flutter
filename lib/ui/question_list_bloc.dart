@@ -19,10 +19,11 @@ class QuestionListBloc extends Bloc<QuestionListEvent, QuestionListState> {
     QuestionListEvent event,
   ) async* {
     try {
+      yield QuestionListInitial();
       final List<Question> questions = await questionRepository.getAllQuestions();
       yield QuestionListLoadSuccess(questions: questions);
-    } catch (_) {
-      yield QuestionListLoadFailure();
+    } catch (e) {
+      yield QuestionListLoadFailure(message: e.toString());
     }
   }
 }

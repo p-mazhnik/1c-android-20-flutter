@@ -18,5 +18,12 @@ class QuestionListLoadSuccess extends QuestionListState {
   List<Object> get props => [questions];
 }
 
-class QuestionListLoadFailure extends QuestionListState {}
+class QuestionListLoadFailure extends QuestionListState {
+  final String message;
+
+  const QuestionListLoadFailure({@required this.message}) : assert(message != null);
+
+  @override
+  List<Object> get props => [message];
+}
 

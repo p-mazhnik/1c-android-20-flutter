@@ -45,13 +45,6 @@ class _QuestionPageState extends State<QuestionPage> {
         },
         child: BlocListener<AnswerBloc, AnswerState>(
           listener: (context, state) {
-            if (state is AnswersLoadFailure) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Failure'),
-                ),
-              );
-            }
             if (state is AnswersLoadSuccess || state is AnswersLoadFailure) {
               _refreshCompleter?.complete();
               _refreshCompleter = Completer();
@@ -61,8 +54,7 @@ class _QuestionPageState extends State<QuestionPage> {
             builder: (context, state) {
               final question = (state as QuestionListLoadSuccess)
                   .questions
-                  .firstWhere((question) => question.id == id,
-                      orElse: () => null);
+                  .firstWhere((question) => question.id == id);
 
               return Padding(
                 padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
@@ -89,23 +81,13 @@ class _QuestionPageState extends State<QuestionPage> {
                       if (answerState is AnswersInitial) {
                         return Center(child: CircularProgressIndicator());
                       }
-                      if (answerState is AnswersLoadFailure) {
-                        return Center(
-                          child: ListView(
-                            children: [
-                              Text(
-                                'Something went wrong!',
-                                style: TextStyle(color: Colors.red),
-                              )
-                            ],
-                          ),
-                        );
-                      }
-
                       if (answerState is AnswersLoadSuccess) {
                         if (answerState.answers.isEmpty) {
-                          return Center(
-                            child: Text('no questions'),
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 16.0),
+                            child: Center(
+                              child: Text('no answers'),
+                            ),
                           );
                         }
                         return Expanded(

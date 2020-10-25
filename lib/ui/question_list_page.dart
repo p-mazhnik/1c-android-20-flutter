@@ -36,7 +36,7 @@ class _QuestionListPageState extends State<QuestionListPage> {
             if (state is QuestionListLoadFailure) {
               Scaffold.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Failure'),
+                  content: Text(state.message),
                 ),
               );
             }

@@ -20,11 +20,12 @@ class AnswerBloc extends Bloc<AnswerEvent, AnswerState> {
   ) async* {
     if(event is AnswerListRequested) {
       try {
+        yield AnswersInitial();
         final List<Answer> answers = await questionRepository.getAnswers(
             event.questionId);
         yield AnswersLoadSuccess(answers: answers);
       } catch (_) {
-        yield AnswersLoadFailure();
+        yield AnswersLoadSuccess(answers: []);
       }
     }
   }
