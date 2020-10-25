@@ -1,5 +1,6 @@
 import 'package:android_course_20_flutter/data/remote/stackoverflow_api.dart';
 import 'package:android_course_20_flutter/data/repository/question_repository.dart';
+import 'package:android_course_20_flutter/ui/answer_bloc.dart';
 import 'package:android_course_20_flutter/ui/question_list_bloc.dart';
 import 'package:android_course_20_flutter/ui/question_list_page.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider (
-        create: (context) =>
-            QuestionListBloc(questionRepository: questionRepository)..add(QuestionListRequested()),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<QuestionListBloc>(
+            create: (context) =>
+                QuestionListBloc(questionRepository: questionRepository)
+                  ..add(QuestionListRequested()),
+          ),
+          BlocProvider<AnswerBloc>(
+            create: (context) =>
+                AnswerBloc(questionRepository: questionRepository),
+          )
+        ],
         child: QuestionListPage(),
       ),
     );

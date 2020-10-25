@@ -23,13 +23,12 @@ class _QuestionListPageState extends State<QuestionListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Flutter StackOverflow')),
+      appBar: AppBar(title: Text('Flutter Stackoverflow')),
       body: RefreshIndicator(
         onRefresh: () {
           BlocProvider.of<QuestionListBloc>(context).add(
             QuestionListRequested(),
           );
-          print('onREfresh');
           return _refreshCompleter.future;
         },
         child: BlocListener<QuestionListBloc, QuestionListState>(
@@ -37,7 +36,6 @@ class _QuestionListPageState extends State<QuestionListPage> {
             if (state is QuestionListLoadFailure) {
               Scaffold.of(context).showSnackBar(
                 SnackBar(
-                  // backgroundColor: Colors.green,
                   content: Text('Failure'),
                 ),
               );

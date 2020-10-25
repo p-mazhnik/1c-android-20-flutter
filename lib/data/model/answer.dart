@@ -7,8 +7,10 @@ class Answer {
   Answer({this.body, this.score, this.questionId, this.id});
 
   Answer.fromJson(Map<String, dynamic> json) {
-    // TODO
     body = json['body'];
+    score = json['score'];
+    questionId = json['question_id'];
+    id = json['answer_id'];
   }
 }
 

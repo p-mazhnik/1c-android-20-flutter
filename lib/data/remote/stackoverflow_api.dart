@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:android_course_20_flutter/data/model/answer.dart';
 import 'package:android_course_20_flutter/data/model/question.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
@@ -26,5 +27,22 @@ class StackOverflowApi {
     }).toList();
 
     return questions;
+  }
+
+  Future<List<Answer>> getAnswers(int questionId) async {
+    List<Answer> answers = [];
+
+    final url = "$STACKOVERFLOW_API_URL/questions/$questionId/answers?order=desc&sort=votes&site=stackoverflow&filter=withbody";
+    final response = await this.httpClient.get(url);
+    if (response.statusCode != 200) {
+      throw Exception('error getting answers');
+    }
+
+    final json = jsonDecode(response.body)['items'] as List;
+    json.map((answer) => {
+      answers.add(Answer.fromJson(answer))
+    }).toList();
+
+    return answers;
   }
 }
